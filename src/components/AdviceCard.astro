@@ -74,11 +74,13 @@ const adviceSlip = {
     background-color: hsl(150, 100%, 66%); 
     display: inline-block;
     cursor: pointer;
-  }
 
-  button.getAdvice:hover {
-    box-shadow: 0 0 40px hsl(150, 100%, 66%);
-    animation: fadeIn 0.25s;
+    @media (hover:hover) {
+      &:hover {
+        box-shadow: 0 0 40px hsl(150, 100%, 66%);
+        animation: fadeIn 0.25s;
+      }
+    }
   }
   @keyframes fadeIn {
     0% { box-shadow: none; }
