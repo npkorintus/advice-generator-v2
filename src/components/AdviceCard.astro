@@ -1,0 +1,115 @@
+---
+import dice from '../assets/icon-dice.svg';
+import dividerDesktop from '../assets/pattern-divider-desktop.svg';
+import dividerMobile from '../assets/pattern-divider-mobile.svg';
+
+const response = await fetch('https://api.adviceslip.com/advice');
+const data = await response.json();
+
+console.log(data);
+
+const adviceSlip = {
+  slip: {
+    id: data.slip.id,
+    advice: data.slip.advice,
+  }
+}
+---
+
+<advice-card>
+  <div class='advice-card'>
+    <div class='id'>Advice #{adviceSlip.slip.id}</div>
+    <div class='advice'><q>{adviceSlip.slip.advice}</q></div>
+    <div class='divider'>
+      <!-- <img src={mobile ? dividerMobile : dividerDesktop} alt="divider" /> -->
+       <picture>
+        <source srcset={dividerMobile.src} media="(max-width: 768px)" />
+        <source srcset={dividerDesktop.src} media="(min-width: 769px)" />
+        <img src={dividerDesktop.src} alt="divider" />
+       </picture>
+    </div>
+    <div class='btn-container'>
+      <button class="getAdvice">
+        <img class='dice-img' src={dice.src} alt="dice-icon" />
+      </button>
+    </div>
+  </div>
+</advice-card>
+
+<style>
+  .advice-card {
+    padding: 20px;
+    border-radius: 12px;
+    background: hsl(217, 19%, 24%);
+  }
+
+  .id {
+    color: hsl(150, 100%, 66%);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+
+  .advice {
+    color: hsl(193, 38%, 86%);
+    font-weight: 800;
+    font-size: 28px;
+    margin-top: 32px;
+  }
+
+  .divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .btn-container {
+    height: 10px;
+    margin-top: 40px;
+  }
+
+  button.getAdvice {
+    border: none;
+    border-radius: 50%; 
+    height: 60px; 
+    width: 60px; 
+    background-color: hsl(150, 100%, 66%); 
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  button.getAdvice:hover {
+    box-shadow: 0 0 40px hsl(150, 100%, 66%);
+    animation: fadeIn 0.25s;
+  }
+  @keyframes fadeIn {
+    0% { box-shadow: none; }
+    100% { box-shadow: 0 0 40px hsl(150, 100%, 66%); }
+  }
+
+</style>
+
+<script>
+  class AdviceCard extends HTMLElement {
+    connectedCallback() {
+      const button = this.querySelector('button.getAdvice');
+      const slipId = this.querySelector('div.id');
+      const advice = this.querySelector('div.advice');
+
+      button?.addEventListener('click', fetchAdvice);
+
+      function fetchAdvice() {
+        fetch('https://api.adviceslip.com/advice')
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            
+            if (slipId && advice) {
+              slipId.textContent = `Advice #${data.slip.id}`;
+              advice.innerHTML = `<q>${data.slip.advice}</q>`;
+            }
+          });
+      }
+    }
+  }
+
+  customElements.define('advice-card', AdviceCard);
+</script>

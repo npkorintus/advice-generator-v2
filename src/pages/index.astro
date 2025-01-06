@@ -1,11 +1,37 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import AdviceCard from '../components/AdviceCard.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+	<div id='root'>
+		<AdviceCard />
+		<div class="attribution">
+			Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank" rel="noreferrer">Frontend Mentor</a>.
+			Coded by <a href="https://www.frontendmentor.io/profile/npkorintus">Nick Korintus</a>.
+		</div>
+	</div>
 </Layout>
+
+<style>
+	#root {
+		max-width: 500px;
+		margin: 0 auto;
+		padding: 2rem;
+		text-align: center;
+	}
+	
+	.attribution {
+		font-size: 11px;
+		text-align: center;
+		position: fixed;
+		left: 0;
+		bottom: 16px;
+		width: 100%;
+		color: white;
+	}
+
+	.attribution a {
+		color: hsl(228, 45%, 44%);
+	}
+</style>
